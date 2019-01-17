@@ -3,7 +3,11 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-const cors = require('cors')
+const cors = require('cors');
+const session = require('express-session');
+const passport = require('passport');
+const mongoose = require('mongoose');
+const User = require('./models/user');
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
@@ -22,7 +26,35 @@ app.use(express.urlencoded({
 }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(cors())
+app.use(cors());
+
+// Use strategy defined in User model to set authentication strategy - currently local strategy
+passport.use(User.createStrategy());
+
+// Use static serialize and deserialize of model to encrypt/decrypt user data for passport session support
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+// Use sessions
+app.use(session({
+  secret: "Well that's just, like, your opinion, man.",
+}));
+
+// Initialise Passport and connect it into the Express pipeline
+app.use(passport.initialize());
+// Connect Passport to the session
+app.use(passport.session());
+
+// Initilise mongoose
+mongoose.connect(dbConn, (err) => {
+  if (err) {
+    console.log('Error connecting to database', err);
+  } else {
+    console.log('Connected to database!');
+  }
+});
+
+
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
