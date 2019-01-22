@@ -6,14 +6,11 @@ const router = express.Router();
 
 router.post('/', (req, res, next) => {
     try {
+        // nonExistentFunction(); // this will fail, causing catch to be executed
         res.status(200).send('Connected to expresson of interest!');
     } catch (error) {
-        return next(createError(error));
+        return next(error);
     };
-    // if (2 !== 1) {
-    //     return next(createError(503, 'Error receiving expression of interest'));
-    // }
-    // res.status(200).send('Connected to expresson of interest!');
 });
 
 module.exports = router;
