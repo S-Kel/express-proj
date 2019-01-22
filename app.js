@@ -18,6 +18,9 @@ const app = express();
 // Database connection 
 const dbConn = app.settings.env === 'development' ? 'mongodb://localhost/real-world' : `mongodb://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@ds157544.mlab.com:57544/real-world`
 
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
 
 // Common Middleware
 app.use(logger('dev'));
@@ -74,6 +77,9 @@ app.use(function (err, req, res, next) {
   // Send error
   res.status(err.status || 500);
   res.send(err.message);
+
+  // render the error page
+  // res.render('error');
 });
 
 module.exports = app;
