@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-// Create new User schema
+// Create User schema
 const User = new Schema({});
 
 const passportLocalMongoose = require('passport-local-mongoose');
@@ -12,5 +12,5 @@ User.plugin(passportLocalMongoose, {
     usernameField: 'email'
 });
 
-// Create and export new User model module
+// Create and export User model module
 module.exports = mongoose.model('User', User);

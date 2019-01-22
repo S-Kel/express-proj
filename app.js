@@ -11,6 +11,7 @@ const User = require('./models/User');
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
+const eoiRouter = require('./routes/eoi');
 
 const app = express();
 
@@ -54,10 +55,10 @@ mongoose.connect(dbConn, (err) => {
   }
 });
 
-
-
+// Routing
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/expression-of-interest', eoiRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
