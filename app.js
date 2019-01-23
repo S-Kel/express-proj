@@ -11,7 +11,7 @@ const { User } = require('./models/User');
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
-const eoiRouter = require('./routes/eoi');
+const eoiRouter = require('./routes/expression_of_interest');
 
 const app = express();
 
