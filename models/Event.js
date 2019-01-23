@@ -1,11 +1,11 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const { userSchema } = require('./User')
+const { hostSchema } = require('./Host')
 
 // Create Event Schema
 const Event = new Schema({
     host: {
-        type: userSchema, // each event belongs to a host; a host could have multiple events
+        type: hostSchema, // each event belongs to a host; a host could have multiple events
         required: true
     },
     description: {

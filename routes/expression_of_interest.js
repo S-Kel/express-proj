@@ -1,5 +1,6 @@
 const express = require('express');
 const { User } = require('../models/User');
+const { Host } = require('../models/Host');
 const Event = require('../models/Event');
 const router = express.Router();
 
@@ -21,11 +22,15 @@ router.post('/', async (req, res, next) => {
             key_influencers
         } = req.body
 
-        const newHost = new User({
+        const newUser = new User({
+            email
+        })
+
+        const newHost = new Host({
+            user: newUser,
             first_name,
             last_name,
             organisation,
-            email,
             socials
         });
 
@@ -42,15 +47,18 @@ router.post('/', async (req, res, next) => {
         });
 
         // validate data for both entries befor saving to DB
+        await newUser.validate();
         await newHost.validate();
         await newEvent.validate();
+        await newUser.save();
         await newHost.save();
-        await newEvent.save().then(() => {
-            res.status(200);
-            res.json(newEvent);
-            // req.newEvent = newEvent;
-            // return next();
-        });
+        await newEvent.save()
+            .then(() => {
+                res.status(200);
+                res.json(newEvent);
+                // req.newEvent = newEvent;
+                // return next();
+            });
 
     } catch (error) {
         return next(error);
