@@ -1,11 +1,9 @@
-const createError = require('http-errors');
 const express = require('express');
-
 const { User } = require('../models/User');
 const Event = require('../models/Event');
 const router = express.Router();
 
-router.post('/', (req, res, next) => {
+router.post('/', async (req, res, next) => {
     try {
         const {
             first_name,
@@ -31,8 +29,6 @@ router.post('/', (req, res, next) => {
             socials
         });
 
-        newHost.save();
-
         const newEvent = new Event({
             host: newHost,
             description,
@@ -45,7 +41,11 @@ router.post('/', (req, res, next) => {
             key_influencers
         });
 
-        newEvent.save().then(() => {
+        // validate data for both entries befor saving to DB
+        await newHost.validate();
+        await newEvent.validate();
+        await newHost.save();
+        await newEvent.save().then(() => {
             res.status(200);
             res.json(newEvent);
             // req.newEvent = newEvent;

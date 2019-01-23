@@ -3,9 +3,18 @@ const Schema = mongoose.Schema;
 
 // Create User schema
 const userSchema = new Schema({
-    first_name: String,
-    last_name: String,
-    organisation: String,
+    first_name: {
+        type: String,
+        required: true
+    },
+    last_name: {
+        type: String,
+        required: true
+    },
+    organisation: {
+        type: String,
+        required: true
+    },
     // email will be added by passport plugin
     socials: [String]
 });
