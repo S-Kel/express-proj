@@ -12,12 +12,12 @@ const mongoose = require('mongoose');
 // models
 const { User } = require('./models/User');
 const { Host } = require('./models/Host');
-const Event = require('./models/Event');
+const EventWBGS = require('./models/EventWBGS');
 
 // Route methods
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
-const eoiRouter = require('./routes/expression_of_interest')(User, Host, Event);
+const eoiRouter = require('./routes/expression_of_interest')(User, Host, EventWBGS);
 
 const app = express();
 

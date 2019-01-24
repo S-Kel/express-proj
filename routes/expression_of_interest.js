@@ -1,6 +1,6 @@
 const express = require('express');
 
-const eoiRoutes = (User, Host, Event) => {
+const eoiRoutes = (User, Host, EventWBGS) => {
 
     const eoiRouter = express.Router();
 
@@ -8,7 +8,7 @@ const eoiRoutes = (User, Host, Event) => {
     const { eoiRequestValidation } = require('../middleware/validation/JoiValidation');
     const describeUser = require('../middleware/schemasFromRequest/describeUser')(User);
     const describeHost = require('../middleware/schemasFromRequest/describeHost')(Host);
-    const describeEvent = require('../middleware/schemasFromRequest/describeEvent')(Event);
+    const describeEvent = require('../middleware/schemasFromRequest/describeEvent')(EventWBGS);
 
     // controllers
     const eoiController = require('../controllers/eoiController')();

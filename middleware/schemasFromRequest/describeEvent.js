@@ -1,5 +1,5 @@
 // creates a new WBGS event from request data
-const describeEvent = (Event) => (req, res, next) => {
+const describeEvent = (EventWBGS) => (req, res, next) => {
     // destructure request body, request
     const {
         description,
@@ -15,7 +15,7 @@ const describeEvent = (Event) => (req, res, next) => {
     const { newHost } = req;
 
     // a new event should be created on all submissions
-    const newEvent = new Event({
+    const newEvent = new EventWBGS({
         host: newHost,
         description,
         volunteers,
