@@ -8,12 +8,16 @@ const cors = require('cors');
 const session = require('express-session');
 const passport = require('passport');
 const mongoose = require('mongoose');
-const { User } = require('./models/User');
-const { eoiRequestValidation } = require('./middleware/validation/JoiValidation');
 
+// models
+const { User } = require('./models/User');
+const { Host } = require('./models/Host');
+const Event = require('./models/Event');
+
+// Route methods
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
-const eoiRouter = require('./routes/expression_of_interest');
+const eoiRouter = require('./routes/expression_of_interest')(User, Host, Event);
 
 const app = express();
 
@@ -64,7 +68,7 @@ mongoose.connect(dbConn, (err) => {
 // Routing
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/expression-of-interest', eoiRequestValidation, eoiRouter);
+app.use('/expression-of-interest', eoiRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

@@ -1,75 +1,22 @@
 const express = require('express');
-const router = express.Router();
 
-const { User } = require('../models/User');
-const { Host } = require('../models/Host');
-const Event = require('../models/Event');
+const eoiRoutes = (User, Host, Event) => {
 
+    const eoiRouter = express.Router();
 
-router.post('/', async (req, res, next) => {
-    try {
+    // Middleware
+    const { eoiRequestValidation } = require('../middleware/validation/JoiValidation');
+    const describeUser = require('../middleware/schemasFromRequest/describeUser')(User);
+    const describeHost = require('../middleware/schemasFromRequest/describeHost')(Host);
+    const describeEvent = require('../middleware/schemasFromRequest/describeEvent')(Event);
 
-        // destructure request body
-        const {
-            first_name,
-            last_name,
-            organisation,
-            email,
-            socials,
-            description,
-            volunteers,
-            target_value,
-            location,
-            best_time,
-            local_council_relationship,
-            local_council_details,
-            key_influencers
-        } = req.body;
+    // controllers
+    const eoiController = require('../controllers/eoiController')();
 
-        // for new host/user, new user is created
-        const newUser = new User({
-            email
-        });
+    // endpoints
+    eoiRouter.route('/')
+        .post(eoiRequestValidation, describeUser, describeHost, describeEvent, eoiController.post);
+    return eoiRouter;
+};
 
-        // for new host/user, new host is created
-        const newHost = new Host({
-            user: newUser,
-            first_name,
-            last_name,
-            organisation,
-            socials
-        });
-
-        // a new event should be created on all submissions
-        const newEvent = new Event({
-            host: newHost,
-            description,
-            volunteers,
-            target_value,
-            location,
-            best_time,
-            local_council_relationship,
-            local_council_details,
-            key_influencers
-        });
-
-        // validate data for both entries befor saving to DB
-        await newUser.validate();
-        await newHost.validate();
-        await newEvent.validate();
-        await newUser.save();
-        await newHost.save();
-        await newEvent.save();
-
-        // Attach new event and then send to next middleware
-        res.status(200);
-        res.json(newEvent);
-        // req.newEvent = newEvent; // Use this when ready to pass onto email handler
-        // return next();
-
-    } catch (error) {
-        return next(error);
-    };
-});
-
-module.exports = router;
+module.exports = eoiRoutes;
