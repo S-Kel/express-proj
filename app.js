@@ -1,3 +1,4 @@
+require('dotenv').config();
 const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
@@ -17,7 +18,8 @@ const eoiRouter = require('./routes/expression_of_interest');
 const app = express();
 
 // Database connection 
-const dbConn = app.settings.env === 'development' ? 'mongodb://localhost/real-world' : `mongodb://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@ds157544.mlab.com:57544/real-world`
+const [dbHost, dbName] = app.settings.env === 'development' ? ['localhost', 'real-world'] : [`${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}${process.env.DB_KEY}`, `${process.env.DB_NAME}`];
+const dbConn = `mongodb://${dbHost}/${dbName}`;
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -55,7 +57,7 @@ mongoose.connect(dbConn, (err) => {
   if (err) {
     console.log('Error connecting to database', err);
   } else {
-    console.log('Connected to database!');
+    console.log(`Connected to database!`);
   }
 });
 

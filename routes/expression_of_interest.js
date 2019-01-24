@@ -59,13 +59,13 @@ router.post('/', async (req, res, next) => {
         await newEvent.validate();
         await newUser.save();
         await newHost.save();
-        await newEvent.save()
-            .then(() => {
-                res.status(200);
-                res.json(newEvent);
-                // req.newEvent = newEvent; // Use this when ready to pass onto email handler
-                // return next();
-            });
+        await newEvent.save();
+
+        // Attach new event and then send to next middleware
+        res.status(200);
+        res.json(newEvent);
+        // req.newEvent = newEvent; // Use this when ready to pass onto email handler
+        // return next();
 
     } catch (error) {
         return next(error);
