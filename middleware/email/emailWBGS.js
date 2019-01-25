@@ -64,13 +64,12 @@ const emailWBGS = (req, res, next) => {
         if (error) {
             console.log(error);
         } else {
-            console.log('Email sent' + '\n');
+            console.log('Email sent to WBGS' + '\n');
         }
     });
 
     // pass request to next middleware
-    res.send('success')
-    // next();
+    next();
 };
 
 module.exports = emailWBGS;
