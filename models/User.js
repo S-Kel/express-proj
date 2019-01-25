@@ -1,16 +1,24 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-// Create new User schema
-const User = new Schema({});
+// Create User schema
+const userSchema = new Schema({
+    email: {
+        type: String,
+        required: true
+    }
+});
 
 const passportLocalMongoose = require('passport-local-mongoose');
 
 // Plugin the local authentication strategy using mongoose to store user profiles. 
 // User's email will be used as the username
-User.plugin(passportLocalMongoose, {
+userSchema.plugin(passportLocalMongoose, {
     usernameField: 'email'
 });
 
-// Create and export new User model module
-module.exports = mongoose.model('User', User);
+// Create User model
+const User = mongoose.model('User', userSchema);
+
+// Export User schema & model 
+module.exports = { userSchema, User };

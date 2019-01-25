@@ -1,3 +1,4 @@
+require('dotenv').config();
 const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
@@ -7,16 +8,26 @@ const cors = require('cors');
 const session = require('express-session');
 const passport = require('passport');
 const mongoose = require('mongoose');
-const User = require('./models/User');
 
+// models
+const { User } = require('./models/User');
+const { Host } = require('./models/Host');
+const EventWBGS = require('./models/EventWBGS');
+
+// Route methods
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
+const eoiRouter = require('./routes/expression_of_interest')(User, Host, EventWBGS);
 
 const app = express();
 
 // Database connection 
-const dbConn = app.settings.env === 'development' ? 'mongodb://localhost/real-world' : `mongodb://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@ds157544.mlab.com:57544/real-world`
+const [dbHost, dbName] = app.settings.env === 'development' ? ['localhost', 'real-world'] : [`${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}${process.env.DB_KEY}`, `${process.env.DB_NAME}`];
+const dbConn = `mongodb://${dbHost}/${dbName}`;
 
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
 
 // Common Middleware
 app.use(logger('dev'));
@@ -50,14 +61,14 @@ mongoose.connect(dbConn, (err) => {
   if (err) {
     console.log('Error connecting to database', err);
   } else {
-    console.log('Connected to database!');
+    console.log(`Connected to database!`);
   }
 });
 
-
-
+// Routing
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/expression-of-interest', eoiRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -70,9 +81,12 @@ app.use(function (err, req, res, next) {
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-  // render the error page
+  // Send error
   res.status(err.status || 500);
-  res.render('error');
+  res.send(err.message);
+
+  // render the error page
+  // res.render('error');
 });
 
 module.exports = app;
