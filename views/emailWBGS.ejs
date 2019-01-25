@@ -1,0 +1,90 @@
+<%# /*format of email to be sent to WBGS*/ %> 
+
+<p>You have recieved an expression of interest from <strong><%= first_name %> <%= last_name %></strong> of <strong><%= organisation %></strong>!</p>
+
+<h3>Their cause</h3>
+<h4>Description:</h4>
+<p>
+    <%= description %>
+</p>
+
+<h4>6-10 volunteers available?:</h4>
+<p>
+    <% if (volunteers) { %>
+        Yes
+    <% } else { %>
+        No
+    <% } %>
+</p>
+
+<h4>Target amount:</h4>
+<p>
+    $<%= target_value %>K
+</p><br/>
+
+<h3>Their community<h3>
+
+<h4>Location:</h4>
+<div>
+    <h5>Suburb:</h5>
+    <span>
+        <%= location[0] %>
+    </span>
+    <h5>Postal/ZIP code:</h5>
+    <span>
+        <%= location[1] %>
+    </span>
+    <h5>Country:</h5>
+    <span>
+        <%= location[2] %>
+    </span>
+</div>
+
+<h4>The best time of year for an event in their community:</h4>
+<p>
+    <%= best_time %> 
+</p><br/>
+
+<h3>Their Network</h3>
+
+<h4>Relationship with local council?:</h4>
+<% if (local_council_relationship) { %>
+    <p>
+        Yes
+    </p>
+    <h4>Local council details:</h4>
+    <p>
+        <%= local_council_details %> 
+    </p>
+<% } else {%>
+    <p>
+        No
+    </p>
+<% } %>
+
+<% if (key_influencers.length > 0) { %>
+    <h4>Key influencers:</h4>
+    <ul>
+        <% key_influencers.forEach(influencer => { %>
+        <li>
+            <%= influencer %>
+        </li>
+        <% }) %>
+    </ul>
+<% } %>
+<br/>
+<br/>
+
+<p>
+    Contact <%= first_name %> at <%= email %>
+    <% if (socials.length > 0) { %>
+    <span>, or at the following locations:</span>
+    <ul>
+        <% socials.forEach(link => { %>
+        <li>
+            <%= link %>
+        </li>
+        <% }) %>
+    </ul>
+    <% } %>
+</p>
