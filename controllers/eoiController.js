@@ -13,9 +13,9 @@ const eoiController = () => {
             models.forEach(async model => await model.save());
 
             // Send ne event to next middleware
-            res.status(201);
-            res.json(newEvent);
-            // return next(); // Use this when ready to pass onto email handler        
+            // res.status(201);
+            // res.json(newEvent);
+            next(); // Use this when ready to pass onto email handler        
 
         } catch (error) {
             return next(error);
