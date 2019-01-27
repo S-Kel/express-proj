@@ -26,24 +26,26 @@ app.set('view engine', 'ejs');
 const emailRecipients = async (req, res, next) => {
     // destructure response
     const {
-        email
-    } = req.newUser;
-    const {
-        first_name,
-        last_name,
-        organisation,
-        socials
-    } = req.newHost;
-    const {
-        description,
-        volunteers,
-        target_value,
-        location,
-        best_time,
-        local_council_relationship,
-        local_council_details,
-        key_influencers
-    } = req.newEvent;
+        newUser: {
+            email
+        },
+        newHost: {
+            first_name,
+            last_name,
+            organisation,
+            socials
+        },
+        newEvent: {
+            description,
+            volunteers,
+            target_value,
+            location,
+            best_time,
+            local_council_relationship,
+            local_council_details,
+            key_influencers
+        }
+    } = req;
 
     // set up and render content of email to string to WBGS
     let WbgsMailOptions;

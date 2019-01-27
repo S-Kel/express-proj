@@ -2,18 +2,23 @@
 
 const eoiController = () => {
 
-    const post = (req, res, next) => {
+    const post = async (req, res, next) => {
         try {
 
             // destructure request and set models to an array
             const { newUser, newHost, newEvent } = req;
-            const models = [newUser, newHost, newEvent];
 
-            // validate data for all entries before saving to DB
-            models.forEach(async model => await model.validate());
-            models.forEach(async model => await model.save());
+            // validate data for all entries before saving to dB
+            await newUser.validate();
+            await newHost.validate();
+            await newEvent.validate();
 
-            // Send to next middleware
+            // save data to dB
+            await newUser.save();
+            await newHost.save();
+            await newEvent.save();
+
+            // If validation and save successful, send to next middleware
             next();
 
         } catch (error) {
