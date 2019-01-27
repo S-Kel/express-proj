@@ -1,3 +1,4 @@
+// Sends emails to WBGS and Host after expression of interest has been lodged
 require('dotenv').config();
 const sgMail = require('@sendgrid/mail');
 const path = require('path');
@@ -22,7 +23,7 @@ const sendMail = (receiver, options) => {
 app.set('views', path.join(__dirname, '../views'));
 app.set('view engine', 'ejs');
 
-const emailWBGS = async (req, res, next) => {
+const emailRecipients = async (req, res, next) => {
     // destructure response
     const {
         email
@@ -96,4 +97,4 @@ const emailWBGS = async (req, res, next) => {
     next();
 };
 
-module.exports = emailWBGS;
+module.exports = emailRecipients;

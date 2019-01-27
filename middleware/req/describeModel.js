@@ -1,4 +1,4 @@
-// adds a new model with type [string] to request data
+// adds a new model to request data; - expects 'newUser', 'newHost', or 'newEvent' model type to be passed
 const describeModel = (User, Host, EventWBGS) => (model) => (req, res, next) => {
     // destructure request body
     const {
@@ -21,7 +21,7 @@ const describeModel = (User, Host, EventWBGS) => (model) => (req, res, next) => 
 
     try {
         let data;
-        // new model is created
+        // new model is created based on model type passed to switch
         switch (model) {
             case 'newUser':
                 data = new User({
