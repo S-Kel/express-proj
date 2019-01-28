@@ -24,18 +24,14 @@ app.set('views', path.join(__dirname, '../views'));
 app.set('view engine', 'ejs');
 
 const emailRecipients = async (req, res, next) => {
-    // destructure response
+    // destructure request
     const {
-        newUser: {
-            email
-        },
-        newHost: {
+        body: {
+            email,
             first_name,
             last_name,
             organisation,
-            socials
-        },
-        newEvent: {
+            socials,
             description,
             volunteers,
             target_value,

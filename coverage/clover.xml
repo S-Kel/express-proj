@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1548668782322" clover="3.2.0">
+  <project timestamp="1548668782322" name="All files">
+    <metrics statements="17" coveredstatements="8" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2" elements="19" coveredelements="10" complexity="0" loc="17" ncloc="17" packages="1" files="1" classes="1"/>
+    <file name="eoiController.js" path="/mnt/c/Users/natha/transport/projects/real-world-app/express-proj/controllers/eoiController.js">
+      <metrics statements="17" coveredstatements="8" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
+      <line num="3" count="1" type="stmt"/>
+      <line num="5" count="1" type="stmt"/>
+      <line num="6" count="1" type="stmt"/>
+      <line num="25" count="1" type="stmt"/>
+      <line num="28" count="1" type="stmt"/>
+      <line num="32" count="0" type="stmt"/>
+      <line num="40" count="0" type="stmt"/>
+      <line num="53" count="0" type="stmt"/>
+      <line num="54" count="0" type="stmt"/>
+      <line num="55" count="0" type="stmt"/>
+      <line num="58" count="0" type="stmt"/>
+      <line num="59" count="0" type="stmt"/>
+      <line num="60" count="0" type="stmt"/>
+      <line num="63" count="0" type="stmt"/>
+      <line num="66" count="1" type="stmt"/>
+      <line num="70" count="1" type="stmt"/>
+      <line num="75" count="1" type="stmt"/>
+    </file>
+  </project>
+</coverage>
