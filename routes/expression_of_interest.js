@@ -1,3 +1,4 @@
+// Describes requests made to the /expression-of-interest path 
 const express = require('express');
 
 const eoiRoutes = (User, Host, EventWBGS) => {

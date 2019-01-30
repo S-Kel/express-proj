@@ -8,6 +8,7 @@ const cors = require('cors');
 const session = require('express-session');
 const passport = require('passport');
 const mongoose = require('mongoose');
+const acl = require('express-acl');
 
 // models
 const { User } = require('./models/User');
@@ -18,6 +19,7 @@ const EventWBGS = require('./models/EventWBGS');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const eoiRouter = require('./routes/expression_of_interest')(User, Host, EventWBGS);
+const dashboardRouter = require('./routes/dashboard');
 
 const app = express();
 
@@ -65,10 +67,26 @@ mongoose.connect(dbConn, (err) => {
   }
 });
 
+// Configure acl for authorisation
+acl.config({
+  filename: 'acl.yml',
+  defaultRole: 'guest',
+  denyCallback: (res) => {
+    return res.status(403).json({
+      status: 'Access Denied',
+      success: false,
+      message: 'You are not authorized to access this resource'
+    });
+  }
+});
+// Connect acl to the app
+app.use(acl.authorize);
+
 // Routing
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/expression-of-interest', eoiRouter);
+app.use('/dashboard', dashboardRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

@@ -1,0 +1,14 @@
+--- 
+- group: admin
+  permissions:  # allow admin full access
+  - resource: "*"
+    methods: "*"
+    action: allow
+- group: guest
+  permissions:  # deny user access to dashboard, allow everything else
+  - resource: dashboard/*
+    methods: "*"
+    action: deny
+  - resource: "*"
+    methods: "*"
+    action: allow
