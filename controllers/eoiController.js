@@ -26,7 +26,9 @@ const eoiController = (User, Host, EventWBGS) => {
 
             // construct models
             const newUser = new User({
-                email
+                email,
+                created_at: Date.now(),
+                updated_at: Date.now()
             });
 
             const newHost = new Host({
@@ -34,7 +36,9 @@ const eoiController = (User, Host, EventWBGS) => {
                 first_name,
                 last_name,
                 organisation,
-                socials
+                socials,
+                created_at: Date.now(),
+                updated_at: Date.now()
             });
 
             const newEvent = new EventWBGS({
@@ -46,7 +50,9 @@ const eoiController = (User, Host, EventWBGS) => {
                 best_time,
                 local_council_relationship,
                 local_council_details,
-                key_influencers
+                key_influencers,
+                created_at: Date.now(),
+                updated_at: Date.now()
             });
 
             // validate data for all entries before saving to dB

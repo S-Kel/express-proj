@@ -1,9 +1,18 @@
 const express = require('express');
-const dashboardRouter = express.Router();
 
-dashboardRouter.route('/')
-    .get((req, res, next) => {
-        res.send('reached dashboard');
-    });
+const dashboardRoutes = (EventWBGS) => {
 
-module.exports = dashboardRouter;
+    const dashboardRouter = express.Router();
+
+    // controllers - transport data to/from dB
+    const dashboardController = require('../controllers/dashboardController')(EventWBGS);
+
+    dashboardRouter.route('/')
+        .get(
+            dashboardController.getDashboard
+        );
+
+    return dashboardRouter;
+};
+
+module.exports = dashboardRoutes;

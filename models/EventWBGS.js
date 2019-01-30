@@ -31,7 +31,15 @@ const EventWBGS = new Schema({
     },
     local_council_relationship: Boolean,
     local_council_details: String,
-    key_influencers: [String]
+    key_influencers: [String],
+    created_at: {
+        type: Date,
+        required: true
+    },
+    updated_at: {
+        type: Date,
+        required: true
+    }
 });
 
 // Create and export Event model

@@ -11,6 +11,14 @@ const userSchema = new Schema({
         type: String,
         required: true,
         default: 'guest'
+    },
+    created_at: {
+        type: Date,
+        required: true
+    },
+    updated_at: {
+        type: Date,
+        required: true
     }
 });
 

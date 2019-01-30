@@ -19,7 +19,7 @@ const EventWBGS = require('./models/EventWBGS');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users')(User);
 const eoiRouter = require('./routes/expression_of_interest')(User, Host, EventWBGS);
-const dashboardRouter = require('./routes/dashboard');
+const dashboardRouter = require('./routes/dashboard')(EventWBGS);
 
 const app = express();
 

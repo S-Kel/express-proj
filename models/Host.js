@@ -20,7 +20,15 @@ const hostSchema = new Schema({
         type: String,
         required: true
     },
-    socials: [String]
+    socials: [String],
+    created_at: {
+        type: Date,
+        required: true
+    },
+    updated_at: {
+        type: Date,
+        required: true
+    }
 });
 
 // Create Host model

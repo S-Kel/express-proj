@@ -18,7 +18,7 @@ const eoiRoutes = (User, Host, EventWBGS) => {
         .post(
             eoiRequestValidation,
             eoiController.post,
-            emailRecipients,
+            // emailRecipients,
             clientResponse.send('Your expression of interest has been submitted successfully.')
         );
 
