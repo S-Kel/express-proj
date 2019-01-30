@@ -1,4 +1,4 @@
-// defines controllers for expression of interest
+// defines controllers which transport data to/from dB for expression of interest
 
 const eoiController = (User, Host, EventWBGS) => {
 
