@@ -8,8 +8,10 @@ const dashboardController = (EventWBGS) => {
             if (req.params.id) {
                 // get event by id passed in on params
                 const event = await EventWBGS.find({ _id: req.params.id });
+
                 // send response of single event as json
                 res.json(event);
+
             } else {
                 // get all events
                 const events = await EventWBGS.find()
@@ -19,6 +21,7 @@ const dashboardController = (EventWBGS) => {
                     .select('_id host.organisation host.first_name host.last_name createdAt criteria.shortlisted')
                     // sort by created_at, with most recent at the top
                     .sort('-createdAt');
+
                 // send response of all events as json
                 res.json(events);
             };
@@ -38,21 +41,21 @@ const dashboardController = (EventWBGS) => {
             const id = req.params.id;
 
             // update event criteria with values sent on request body
-            await EventWBGS.findOneAndUpdate({ _id: id }, {
+            const updatedEvent = await EventWBGS.findOneAndUpdate({ _id: id }, {
                 criteria: req.body
-            }).then((query) => {
-                if (req.body.denied) {
-                    req.body.email = query.host.user.email;
-                    req.body.first_name = query.host.first_name;
-                };
+            }, (err, query) => {
+                if (err) next(err);
+                console.log('Criteria updated for Event document id: ', query._id);
             });
 
-            // if event has been denied, pass to denied email middleware
-            if (req.body.denied) {
+            // if event has been denied, pass to denied email middleware with email and first name of host
+            if (updatedEvent.criteria.denied) {
+                req.body.email = updatedEvent.host.user.email;
+                req.body.first_name = updatedEvent.host.first_name;
                 return next();
             };
 
-            // respond with ok
+            // otherwise, respond with ok
             res.status(200).send('content updated');
         }
         catch (error) {
@@ -73,6 +76,7 @@ const dashboardController = (EventWBGS) => {
                 .select('_id host.organisation host.first_name host.last_name createdAt criteria.shortlisted')
                 // sort by created_at, with most recent at the top
                 .sort('-createdAt');
+
             // send response of all events as json
             res.json(shortlist);
         }
