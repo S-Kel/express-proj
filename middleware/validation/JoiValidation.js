@@ -3,7 +3,7 @@ const Joi = require('joi');
 
 const eoiRequestValidation = (req, res, next) => {
 
-    // define joi validation schema for request object
+    // define joi validation schema for expression of interest request object
     const requestValidation = Joi.object().keys({
         // First name must be a string of alphabetical characters, and is required
         first_name: Joi.string().regex(/^[a-z]+$/i, 'alpha').required(),
@@ -48,4 +48,45 @@ const eoiRequestValidation = (req, res, next) => {
     next();
 };
 
-module.exports = { eoiRequestValidation };
+const adminUpdateValidation = (req, res, next) => {
+
+    // define joi validation schema for an admin update to expression of interest criteria request object
+    const requestValidation = Joi.object().keys({
+        // Socials check must be a boolean
+        socials_check: Joi.boolean(),
+        // Description check must be a boolean
+        description_check: Joi.boolean(),
+        // Volunteers check must be a boolean
+        volunteers_check: Joi.boolean(),
+        // Target value check must be a boolean
+        target_value_check: Joi.boolean(),
+        // Location check must be a boolean
+        location_check: Joi.boolean(),
+        // Best date check must be a boolean
+        best_date_check: Joi.boolean(),
+        // Key influencers check must be a boolean
+        key_influencers_check: Joi.boolean(),
+        // Shortlisted must be a boolean
+        shortlisted: Joi.boolean(),
+        // Denied must be a boolean
+        denied: Joi.boolean(),
+        // Denied reason must be a string
+        denied_reason: Joi.string()
+    });
+
+    // define validation options
+    const validationOptions = {
+        escapeHtml: true,
+        stripUnknown: true,
+        allowUnknown: true
+    };
+
+    // validate data
+    const result = Joi.validate(req.body, requestValidation, validationOptions);
+
+    // create new error if joi fails to validate; this error will return before the request is passed to mongoose validation
+    if (result.error) next(createError(422, result.error));
+    next();
+};
+
+module.exports = { eoiRequestValidation, adminUpdateValidation };

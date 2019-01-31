@@ -5,6 +5,7 @@ const dashboardRoutes = (EventWBGS) => {
     const dashboardRouter = express.Router();
 
     // middlewware
+    const { adminUpdateValidation } = require('../middleware/validation/JoiValidation');
     const deniedEmail = require('../middleware/email/deniedEmail');
     const clientResponse = require('../middleware/res/clientResponse')();
 
@@ -25,6 +26,7 @@ const dashboardRoutes = (EventWBGS) => {
             dashboardController.getDashboard
         )
         .put(
+            adminUpdateValidation,
             dashboardController.updateDashboard,
             // deniedEmail,
             clientResponse.send('An email has been sent to the prospective host explaining reason for denial.')
