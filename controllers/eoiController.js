@@ -1,6 +1,7 @@
 // defines controllers for expression of interest
 
 const eoiController = () => {
+
     const post = (req, res, next) => {
         try {
 
@@ -12,10 +13,8 @@ const eoiController = () => {
             models.forEach(async model => await model.validate());
             models.forEach(async model => await model.save());
 
-            // Send ne event to next middleware
-            // res.status(201);
-            // res.json(newEvent);
-            next(); // Use this when ready to pass onto email handler        
+            // Send to next middleware
+            next();
 
         } catch (error) {
             return next(error);
