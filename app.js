@@ -13,12 +13,13 @@ const acl = require('express-acl');
 // models
 const { User } = require('./models/User');
 const { Host } = require('./models/Host');
+const { Criteria } = require('./models/Criteria');
 const EventWBGS = require('./models/EventWBGS');
 
 // Route methods
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users')(User);
-const eoiRouter = require('./routes/expression_of_interest')(User, Host, EventWBGS);
+const eoiRouter = require('./routes/expression_of_interest')(User, Host, Criteria, EventWBGS);
 const dashboardRouter = require('./routes/dashboard')(EventWBGS);
 
 const app = express();

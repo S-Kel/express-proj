@@ -1,6 +1,6 @@
 // defines controllers which transport data to/from dB for expression of interest
 
-const eoiController = (User, Host, EventWBGS) => {
+const eoiController = (User, Host, Criteria, EventWBGS) => {
 
     const post = async (req, res, next) => {
         try {
@@ -26,9 +26,7 @@ const eoiController = (User, Host, EventWBGS) => {
 
             // construct models
             const newUser = new User({
-                email,
-                created_at: Date.now(),
-                updated_at: Date.now()
+                email
             });
 
             const newHost = new Host({
@@ -36,13 +34,12 @@ const eoiController = (User, Host, EventWBGS) => {
                 first_name,
                 last_name,
                 organisation,
-                socials,
-                created_at: Date.now(),
-                updated_at: Date.now()
+                socials
             });
 
             const newEvent = new EventWBGS({
                 host: newHost,
+                criteria: new Criteria({}),
                 description,
                 volunteers,
                 target_value,
@@ -50,9 +47,7 @@ const eoiController = (User, Host, EventWBGS) => {
                 best_time,
                 local_council_relationship,
                 local_council_details,
-                key_influencers,
-                created_at: Date.now(),
-                updated_at: Date.now()
+                key_influencers
             });
 
             // validate data for all entries before saving to dB

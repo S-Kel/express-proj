@@ -5,7 +5,7 @@ const { userSchema } = require('./User')
 // Create User schema
 const hostSchema = new Schema({
     user: {
-        type: userSchema, // Each host is a user, but a user does not have to be a host
+        type: userSchema, // Each host is a user, but a user does not have to be a host; One to one relationship
         required: true
     },
     first_name: {
@@ -20,16 +20,8 @@ const hostSchema = new Schema({
         type: String,
         required: true
     },
-    socials: [String],
-    created_at: {
-        type: Date,
-        required: true
-    },
-    updated_at: {
-        type: Date,
-        required: true
-    }
-});
+    socials: [String]
+}, { timestamps: true });
 
 // Create Host model
 const Host = mongoose.model('Host', hostSchema);

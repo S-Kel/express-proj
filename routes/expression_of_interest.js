@@ -1,7 +1,7 @@
 // Describes requests made to the /expression-of-interest path 
 const express = require('express');
 
-const eoiRoutes = (User, Host, EventWBGS) => {
+const eoiRoutes = (User, Host, Criteria, EventWBGS) => {
 
     const eoiRouter = express.Router();
 
@@ -11,7 +11,7 @@ const eoiRoutes = (User, Host, EventWBGS) => {
     const clientResponse = require('../middleware/res/clientResponse')();
 
     // controllers - transport data to/from dB
-    const eoiController = require('../controllers/eoiController')(User, Host, EventWBGS);
+    const eoiController = require('../controllers/eoiController')(User, Host, Criteria, EventWBGS);
 
     // endpoints
     eoiRouter.route('/')

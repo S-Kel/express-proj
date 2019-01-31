@@ -11,6 +11,18 @@ const dashboardRoutes = (EventWBGS) => {
         .get(
             dashboardController.getDashboard
         );
+    dashboardRouter.route('/shortlist')
+        .get(
+            dashboardController.getShortlist
+        );
+
+    dashboardRouter.route('/:id')
+        .get(
+            dashboardController.getDashboard
+        )
+        .put(
+            dashboardController.updateDashboard
+        );
 
     return dashboardRouter;
 };
