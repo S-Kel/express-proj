@@ -6,7 +6,7 @@ const eoiRoutes = (User, Host, Criteria, EventWBGS) => {
     const eoiRouter = express.Router();
 
     // Middleware - modify or use request/response object data
-    const { eoiRequestValidation } = require('../middleware/validation/JoiValidation');
+    const { requestValidation } = require('../middleware/validation/JoiValidation');
     const eoiEmail = require('../middleware/email/eoiEmail');
     const clientResponse = require('../middleware/res/clientResponse')();
 
@@ -14,11 +14,12 @@ const eoiRoutes = (User, Host, Criteria, EventWBGS) => {
     const eoiController = require('../controllers/eoiController')(User, Host, Criteria, EventWBGS);
 
     // endpoints
+    // --- requests made to /expression-of-interest ---
     eoiRouter.route('/')
         .post(
-            eoiRequestValidation,
+            requestValidation('eoi'),
             eoiController.post,
-            // emailEmail,
+            eoiEmail,
             clientResponse.send('Your expression of interest has been submitted successfully.')
         );
 
