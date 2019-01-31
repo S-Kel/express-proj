@@ -4,6 +4,10 @@ const dashboardRoutes = (EventWBGS) => {
 
     const dashboardRouter = express.Router();
 
+    // middlewware
+    const deniedEmail = require('../middleware/email/deniedEmail');
+    const clientResponse = require('../middleware/res/clientResponse')();
+
     // controllers - transport data to/from dB
     const dashboardController = require('../controllers/dashboardController')(EventWBGS);
 
@@ -21,7 +25,9 @@ const dashboardRoutes = (EventWBGS) => {
             dashboardController.getDashboard
         )
         .put(
-            dashboardController.updateDashboard
+            dashboardController.updateDashboard,
+            // deniedEmail,
+            clientResponse.send('An email has been sent to the prospective host explaining reason for denial.')
         );
 
     return dashboardRouter;

@@ -13,6 +13,8 @@ const dashboardController = (EventWBGS) => {
             } else {
                 // get all events
                 const events = await EventWBGS.find()
+                    // where denied is not equal to true
+                    .where('criteria.denied').ne(true)
                     // filter out the event_id, organisation, full name, and created at fields
                     .select('_id host.organisation host.first_name host.last_name createdAt criteria.shortlisted')
                     // sort by created_at, with most recent at the top
@@ -38,7 +40,17 @@ const dashboardController = (EventWBGS) => {
             // update event criteria with values sent on request body
             await EventWBGS.findOneAndUpdate({ _id: id }, {
                 criteria: req.body
+            }).then((query) => {
+                if (req.body.denied) {
+                    req.body.email = query.host.user.email;
+                    req.body.first_name = query.host.first_name;
+                };
             });
+
+            // if event has been denied, pass to denied email middleware
+            if (req.body.denied) {
+                return next();
+            };
 
             // respond with ok
             res.status(200).send('content updated');
@@ -53,6 +65,8 @@ const dashboardController = (EventWBGS) => {
         try {
             // get all events 
             const shortlist = await EventWBGS.find()
+                // where denied is not equal to true
+                .where('criteria.denied').ne(true)
                 // where shortlist is true
                 .where('criteria.shortlisted').equals(true)
                 // filter out the event_id, organisation, full name, and created at fields

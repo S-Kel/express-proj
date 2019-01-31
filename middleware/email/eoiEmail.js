@@ -23,7 +23,7 @@ const sendMail = (receiver, options) => {
 app.set('views', path.join(__dirname, '../views'));
 app.set('view engine', 'ejs');
 
-const emailRecipients = async (req, res, next) => {
+const eoiEmail = async (req, res, next) => {
     // destructure request
     const {
         body: {
@@ -75,7 +75,6 @@ const emailRecipients = async (req, res, next) => {
     // set up and render content of email to string to Host
     let HostMailOptions
     res.render('emailHost', {
-        email,
         first_name,
         wbgs: "World's Biggest Garage Sale"
     }, (err, content) => {
@@ -95,4 +94,4 @@ const emailRecipients = async (req, res, next) => {
     next();
 };
 
-module.exports = emailRecipients;
+module.exports = eoiEmail;
