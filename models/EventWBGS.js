@@ -1,11 +1,16 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const { hostSchema } = require('./Host')
+const { hostSchema } = require('./Host');
+const { criteriaSchema } = require('./Criteria');
 
 // Create Event Schema
 const EventWBGS = new Schema({
     host: {
-        type: hostSchema, // each event belongs to a host; a host could have multiple events
+        type: hostSchema, // each event belongs to a host; a host could have multiple events; One to many relationship
+        required: true
+    },
+    criteria: {
+        type: criteriaSchema, // each event has criteria; One to One relationship
         required: true
     },
     description: {
@@ -32,7 +37,7 @@ const EventWBGS = new Schema({
     local_council_relationship: Boolean,
     local_council_details: String,
     key_influencers: [String]
-});
+}, { timestamps: true });
 
 // Create and export Event model
 module.exports = mongoose.model('EventWBGS', EventWBGS);

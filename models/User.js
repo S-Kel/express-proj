@@ -6,8 +6,13 @@ const userSchema = new Schema({
     email: {
         type: String,
         required: true
+    },
+    role: {
+        type: String,
+        required: true,
+        default: 'guest'
     }
-});
+}, { timestamps: true });
 
 const passportLocalMongoose = require('passport-local-mongoose');
 

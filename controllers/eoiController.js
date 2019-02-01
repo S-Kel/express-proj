@@ -1,19 +1,66 @@
-// defines controllers for expression of interest
+// defines controllers which transport data to/from dB for expression of interest
 
-const eoiController = () => {
+const eoiController = (User, Host, Criteria, EventWBGS) => {
 
-    const post = (req, res, next) => {
+    const post = async (req, res, next) => {
         try {
 
-            // destructure request and set models to an array
-            const { newUser, newHost, newEvent } = req;
-            const models = [newUser, newHost, newEvent];
+            // destructure request
+            const {
+                body: {
+                    email,
+                    first_name,
+                    last_name,
+                    organisation,
+                    socials,
+                    description,
+                    volunteers,
+                    target_value,
+                    location,
+                    best_time,
+                    local_council_relationship,
+                    local_council_details,
+                    key_influencers
+                }
+            } = req;
 
-            // validate data for all entries before saving to DB
-            models.forEach(async model => await model.validate());
-            models.forEach(async model => await model.save());
+            // construct models
+            const newUser = new User({
+                email
+            });
 
-            // Send to next middleware
+            const newHost = new Host({
+                user: newUser,
+                first_name,
+                last_name,
+                organisation,
+                socials
+            });
+
+            const newEvent = new EventWBGS({
+                host: newHost,
+                criteria: new Criteria({}),
+                description,
+                volunteers,
+                target_value,
+                location,
+                best_time,
+                local_council_relationship,
+                local_council_details,
+                key_influencers
+            });
+
+            // validate data for all entries before saving to dB
+            await newUser.validate();
+            await newHost.validate();
+            await newEvent.validate();
+
+            // save data to dB
+            await newUser.save();
+            await newHost.save();
+            await newEvent.save();
+
+            // If validation and save successful, send to next middleware
             next();
 
         } catch (error) {
