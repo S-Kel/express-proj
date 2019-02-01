@@ -23,7 +23,7 @@ const dashboardController = (EventWBGS) => {
             } else {
 
                 const { pageNum, limit } = req.query;
-                const startingDoc = parseInt((pageNum - 1) * limit) || 1;
+                const startingDoc = (parseInt(pageNum) - 1) * limit || 0;
                 const itemsPerPage = parseInt(limit) || 10;
 
                 // get all events
@@ -35,7 +35,7 @@ const dashboardController = (EventWBGS) => {
                     // sort by created_at, with most recent at the top
                     .sort('-createdAt')
                     // filter by items per page, from a starting document
-                    .slice([startingDoc, itemsPerPage])
+                    .skip(startingDoc).limit(itemsPerPage)
                     // handle query data
                     .exec((err, events) => {
                         // if error, handle error
@@ -92,7 +92,7 @@ const dashboardController = (EventWBGS) => {
         try {
 
             const { pageNum, limit } = req.query;
-            const startingDoc = parseInt((pageNum - 1) * limit) || 1;
+            const startingDoc = (parseInt(pageNum) - 1) * limit || 0;
             const itemsPerPage = parseInt(limit) || 10;
 
             // get all events on the shortlist
@@ -106,7 +106,7 @@ const dashboardController = (EventWBGS) => {
                 // sort by created_at, with most recent at the top
                 .sort('-createdAt')
                 // filter by items per page, from a starting document
-                .slice([startingDoc, itemsPerPage])
+                .skip(startingDoc).limit(itemsPerPage)
                 // handle query data
                 .exec((err, shortlist) => {
                     // if error, handle error
