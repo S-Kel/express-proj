@@ -23,6 +23,8 @@ const dashboardController = (EventWBGS) => {
             } else {
 
                 const { pageNum, limit } = req.query;
+                const startingDoc = parseInt((pageNum - 1) * limit) || 1;
+                const itemsPerPage = parseInt(limit) || 10;
 
                 // get all events
                 EventWBGS.find()
@@ -32,8 +34,8 @@ const dashboardController = (EventWBGS) => {
                     .select('_id host.organisation host.first_name host.last_name createdAt criteria.shortlisted')
                     // sort by created_at, with most recent at the top
                     .sort('-createdAt')
-                    // pass in page number, and results per page, to limit the number of documents returned
-                    .slice([parseInt((pageNum - 1) * limit), parseInt(limit)])
+                    // filter by items per page, from a starting document
+                    .slice([startingDoc, itemsPerPage])
                     // handle query data
                     .exec((err, events) => {
                         // if error, handle error
@@ -90,6 +92,8 @@ const dashboardController = (EventWBGS) => {
         try {
 
             const { pageNum, limit } = req.query;
+            const startingDoc = parseInt((pageNum - 1) * limit) || 1;
+            const itemsPerPage = parseInt(limit) || 10;
 
             // get all events on the shortlist
             EventWBGS.find()
@@ -101,8 +105,8 @@ const dashboardController = (EventWBGS) => {
                 .select('_id host.organisation host.first_name host.last_name createdAt criteria.shortlisted')
                 // sort by created_at, with most recent at the top
                 .sort('-createdAt')
-                // pass in page number, and results per page, to limit the number of documents returned
-                .slice([parseInt((pageNum - 1) * limit), parseInt(limit)])
+                // filter by items per page, from a starting document
+                .slice([startingDoc, itemsPerPage])
                 // handle query data
                 .exec((err, shortlist) => {
                     // if error, handle error
