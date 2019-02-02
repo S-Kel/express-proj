@@ -4,8 +4,16 @@
   - resource: "*"
     methods: "*"
     action: allow
-- group: guest
+- group: user
   permissions:  # deny user access to dashboard, allow everything else
+  - resource: dashboard/*
+    methods: "*"
+    action: deny
+  - resource: "*"
+    methods: "*"
+    action: allow
+- group: guest
+  permissions:  # deny guest access to dashboard, allow everything else
   - resource: dashboard/*
     methods: "*"
     action: deny
