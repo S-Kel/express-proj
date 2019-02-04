@@ -16,7 +16,7 @@ const eoiController = (User) => {
                 // Log the new user in (Passport will create a session) using the local strategy
                 passport.authenticate('local')(req, res, () => {
                     req.session.role = req.user.role || 'guest';
-                    res.status(200).json(req.user.email);
+                    res.status(200).json({ email: req.user.email, role: req.user.role });
                 });
             });
 
@@ -29,7 +29,7 @@ const eoiController = (User) => {
     const postLogin = (req, res, next) => {
         try {
             req.session.role = req.user.role || 'guest';
-            res.status(200).json(req.user.email);
+            res.status(200).json({ email: req.user.email, role: req.user.role });
         } catch (error) {
             return next(error);
         };
