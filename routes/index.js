@@ -1,9 +1,10 @@
+// Describes requests made to the / path
 const express = require('express');
-const router = express.Router();
+const indexRouter = express.Router();
 
 /* GET home page. */
-router.get('/', function (req, res, next) {
+indexRouter.get('/', function (req, res, next) {
   res.send('Express app running');
 });
 
-module.exports = router;
+module.exports = indexRouter;
