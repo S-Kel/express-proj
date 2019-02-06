@@ -46,9 +46,8 @@ const usersController = (User) => {
     };
 
     const verifyUserToken = (req, res, next) => {
-        console.log('in verify user token')
-        console.log(req.headers.user)
         if (req.headers.user) {
+            // find user in header and add user role to session
             User.find({ email: req.headers.user }).select('role')
                 .exec((err, user) => {
                     if (err) return next(err);
@@ -56,7 +55,7 @@ const usersController = (User) => {
                     next();
                 });
         } else {
-            console.log('in verify user token fail')
+            // set default user role to session
             req.session.role = 'guest';
             next();
         }
