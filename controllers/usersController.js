@@ -1,5 +1,5 @@
 // defines controllers which transport data to/from dB for users
-const eoiController = (User) => {
+const usersController = (User) => {
     const passport = require('passport');
 
     // User register controller
@@ -45,11 +45,29 @@ const eoiController = (User) => {
         };
     };
 
+    const verifyUserToken = (req, res, next) => {
+        console.log('in verify user token')
+        console.log(req.headers.user)
+        if (req.headers.user) {
+            User.find({ email: req.headers.user }).select('role')
+                .exec((err, user) => {
+                    if (err) return next(err);
+                    req.session.role = user[0].role || 'guest';
+                    next();
+                });
+        } else {
+            console.log('in verify user token fail')
+            req.session.role = 'guest';
+            next();
+        }
+    }
+
     return {
         postRegister,
         postLogin,
-        getLogout
+        getLogout,
+        verifyUserToken
     };
 };
 
-module.exports = eoiController;
+module.exports = usersController;

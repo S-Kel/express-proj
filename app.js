@@ -9,6 +9,8 @@ const session = require('express-session');
 const passport = require('passport');
 const mongoose = require('mongoose');
 const acl = require('express-acl');
+// const verifyUserRole = require('./middleware/verification/verifyUserRole');
+
 
 // models
 const { User } = require('./models/User');
@@ -21,6 +23,9 @@ const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users')(User);
 const eoiRouter = require('./routes/expression_of_interest')(User, Host, Criteria, EventWBGS);
 const dashboardRouter = require('./routes/dashboard')(EventWBGS);
+
+// custom middleware
+const usersController = require('./controllers/usersController')(User);
 
 const app = express();
 
@@ -67,6 +72,9 @@ mongoose.connect(dbConn, (err) => {
     console.log(`Connected to database!`);
   }
 });
+
+// verify user role
+app.use(usersController.verifyUserToken);
 
 // Configure acl for authorisation
 acl.config({
