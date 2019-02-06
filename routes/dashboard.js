@@ -12,8 +12,8 @@ const dashboardRoutes = (EventWBGS) => {
     // controllers - transport data to/from dB
     const dashboardController = require('../controllers/dashboardController')(EventWBGS);
 
-    // endpoints
 
+    // endpoints
     // --- requests made to /dashboard ---
     dashboardRouter.route('/')
         .get(
