@@ -46,18 +46,20 @@ const usersController = (User) => {
     };
 
     const verifyUserToken = (req, res, next) => {
-        if (req.headers.user) {
+        console.log(req.headers)
+        if (!req.headers.user || req.headers.user === 'null') {
+            // set default user role to session
+            req.session.role = 'guest';
+            next();
+        } else {
             // find user in header and add user role to session
             User.find({ email: req.headers.user }).select('role')
                 .exec((err, user) => {
                     if (err) return next(err);
+                    console.log(req.headers.user)
                     req.session.role = user[0].role || 'guest';
                     next();
                 });
-        } else {
-            // set default user role to session
-            req.session.role = 'guest';
-            next();
         }
     }
 
